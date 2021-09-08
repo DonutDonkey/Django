@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import AdditionalInfo, Film
+from .models import AdditionalInfo, Film, Rating
 
 class FilmForm(ModelForm) :
     class Meta:
@@ -10,3 +10,8 @@ class AdditionalInfoForm(ModelForm) :
     class Meta:
         model = AdditionalInfo
         fields = ['genre', 'duration_time']
+
+class RatingForm(ModelForm) :
+    class Meta:
+        model = Rating
+        fields = ['stars', 'review']

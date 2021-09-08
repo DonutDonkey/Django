@@ -5,7 +5,7 @@
 {% block title %} Film form {% endblock %}
 
 {% block page %}
-    <div class="card" style="width: 64rem;">
+    <div class="card" style="width: 42rem; float: left; margin-right: 1rem;">
         <div class="card-body">
             {% if isNew %}
                 <h5 class="card-title">Add movie</h5>
@@ -13,7 +13,6 @@
                 <h5 class="card-title">Edit movie</h5>
             {% endif %}
 
-            <i class="fas fa-camera"></i> 
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <!-- {{ form }} -->
@@ -27,6 +26,25 @@
                         <button type="submit" class="btn-success">Edit movie</button>
                     {% endif %}
             </form>
-            
-        <a href="{% url 'all_movies' %}"> <button type="submit" class="btn btn-danger">Back</button> </a>
+        </div>
+    </div>
+
+    <div class="card" style="width: 40rem;">
+        <div class="card-body">
+            <h5 class="card-title">Rate Movie</h5>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <br>
+                {{ rating|bootstrap }}
+                    <button type="submit" class="btn-success">Rate</button>
+            </form>
+        </div>
+    </div>
+
+    {% for reviews_loop in reviews %}
+        <h4>Stars : {{ reviews_loop.stars }}</h4>
+        <p>{{ reviews_loop.review }}</p>
+    {% endfor %}
+    <a href="{% url 'all_movies' %}"> <button type="submit" class="btn btn-danger">Back</button> </a>
 {% endblock %}

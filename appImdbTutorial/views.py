@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import AdditionalInfo, Film
-from .forms import FilmForm, AdditionalInfoForm
+from .models import AdditionalInfo, Film, Rating
+from .forms import FilmForm, AdditionalInfoForm, RatingForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -34,6 +34,9 @@ def new_movie(request) :
 def edit_movie(request, id) :
     if_new = False
     movie = get_object_or_404(Film, pk=id) # no primary key in our model
+    reviews = Rating.objects.filter(film=movie)
+    actors = movie.actors.all() #actors is related name = 
+
 
     try :
         info = AdditionalInfo.objects.get(film = movie.id) # If no value is added in the models.py the dault will be lower casae name of the model
@@ -42,7 +45,14 @@ def edit_movie(request, id) :
 
     form_film = FilmForm(request.POST or None, request.FILES or None, instance=movie)
     form_info = AdditionalInfoForm(request.POST or None, instance=info)
+    form_rati = RatingForm(request.POST or None)
 
+    if request.method == 'POST' :
+        if 'stars' in request.POST :
+            rating_to_save = form_rati.save(commit=False)
+            rating_to_save.film = movie
+            rating_to_save.save()
+            
     if all( (form_film.is_valid(), form_info.is_valid()) ) :
         film = form_film.save(commit=False)
         extra = form_info.save()
@@ -52,7 +62,7 @@ def edit_movie(request, id) :
 
         return redirect(all_movies)
 
-    return render(request, 'movie_form.html', {'form': form_film, 'form_info': form_info, 'isNew': if_new})
+    return render(request, 'movie_form.html', {'form': form_film, 'form_info': form_info, 'rating': form_rati, 'reviews': reviews, 'isNew': if_new})
 
 @login_required
 def delete_movie(request, id) :

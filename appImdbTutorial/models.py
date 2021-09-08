@@ -61,13 +61,13 @@ class Rating(models.Model) :
     review = models.TextField(default='', blank=True)
     stars = models.SmallIntegerField(default=5)
 
-    movie = models.ForeignKey(Film, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
 
 class Actor(models.Model) :
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
 
-    movies = models.ManyToManyField(Film)
+    movies = models.ManyToManyField(Film, related_name='actors')
 
     def __str__(self) -> str:
         return "{} {}".format(self.first_name, self.last_name)
