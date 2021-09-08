@@ -39,3 +39,15 @@ class Film(models.Model) :
     def title_with_year(self) :
         return "{} ({})".format(self.title, self.year)
         # return f'{self.title}({str(self.year)})'
+
+class AdditionalInfo(models.Model) :
+    duration_time = models.PositiveSmallIntegerField(default=0)
+
+    GENRE = {
+        (0, 'Else'),
+        (1, 'Horror'),
+        (2, 'Comedy'),
+        (3, 'Sci-fi'),
+        (4, 'Drama'),
+    }
+    genre = models.PositiveSmallIntegerField(default=0)
