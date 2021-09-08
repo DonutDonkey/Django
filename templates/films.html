@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+<!-- {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'new.css' %}">
+</head>
+<body> -->
+
+
+{% block title %} Films {% endblock %}
+
+{% block page %}
+    <div class="jumbotron">
+        {% if user.is_authenticated %}
+            <h1 class="display-4"> Hello {{ user.username }} </h1> 
+            <br><a href="{% url 'logout' %}" class="btn btn-danger">Logout <i class="fas fa-sign-out-alt"></i></a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-success">Login <i class="fas fa-sign-in-alt"></i></a>
+        {% endif %}
+    </div>
+
+    <h2>All movies</h2>
+    <h3>{{ text }}</h3>
+
+    <a href="{% url 'new_movie' %}">New Movie <i class="fas fa-plus-circle"></i></a>
+
+    {% if film|length == 0 %}
+
+        <h2>No films</h2>
+
+    {% else %}
+
+        {% for f_loop in film %}
+        <div class="card">
+            <div class="card-body">
+                {% if f_loop.poster %}
+                    <img src="/media/{{ f_loop.poster }}" class="film-poster">
+                {% else %}
+                    <i class="fas fa-4x fa-folder-open" class="film-poster"></i>
+                {% endif %}
+                <div class="row">
+                    <!-- jest 12 kolumn  -->
+                    <div class="col-9">
+                        <h5 class="card-title">{{ f_loop.title }} ({{ f_loop.year }})</h5>
+                    </div>
+                    <div class="col-3">
+                        <a href="{% url 'edit_movie' f_loop.id %}" style="color:darkgreen"><i class="fas fa-2x fa-edit"></i></a>
+                        <a href="{% url 'delete_movie' f_loop.id %}" style="color: Tomato"><i class="fas fa-2x fa-minus-circle"></i></a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <p class="card-text description">{{ f_loop.description }}</p>
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+
+        <h2>Number of movies in BD : {{ film|length }}</h2>
+
+    {% endif %}
+{% endblock %}
+    <!-- </body>
+</html> -->

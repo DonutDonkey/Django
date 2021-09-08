@@ -1,0 +1,18 @@
+h2 {
+    color: green;
+}
+body {
+    padding: 2rem;
+    color:gray;
+}
+.film-poster {
+    width: 150px;
+    float: left;
+}
+.description {
+    margin-left: 15px
+}
+
+.card {
+    width: 36rem;
+}

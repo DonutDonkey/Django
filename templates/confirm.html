@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+
+{% block title %} Confirm form {% endblock %}
+
+{% block page %}
+
+    <div class="card" style="width: 64rem;">
+        <div class="card-body">
+            <h5 class="card-title">Confirm Deletion of "{{ film.title }}"</h5>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger">Confirm</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="{% url 'all_movies' %}"> <button type="submit" class="btn btn-success">Back</button></a>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+{% load bootstrap %}
+
+{% block title %} Film form {% endblock %}
+
+{% block page %}
+    <div class="card" style="width: 64rem;">
+        <div class="card-body">
+            {% if isNew %}
+                <h5 class="card-title">Add movie</h5>
+            {% else %}
+                <h5 class="card-title">Edit movie</h5>
+            {% endif %}
+
+            <i class="fas fa-camera"></i> 
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- {{ form }} -->
+                {{ form|bootstrap }}
+                    {% if isNew %}
+                        <button type="submit" class="btn-success">Add movie</button>
+                    {% else %}
+                        <button type="submit" class="btn-success">Edit movie</button>
+                    {% endif %}
+            </form>
+            
+        <a href="{% url 'all_movies' %}"> <button type="submit" class="btn btn-danger">Back</button> </a>
+{% endblock %}
