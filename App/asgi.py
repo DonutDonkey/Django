@@ -1,5 +1,5 @@
 """
-ASGI config for UdemyCourse project.
+ASGI config for App project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

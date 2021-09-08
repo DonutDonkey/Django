@@ -18,6 +18,9 @@
                 {% csrf_token %}
                 <!-- {{ form }} -->
                 {{ form|bootstrap }}
+                <br>
+                {{ form_info|bootstrap }}
+                <br>
                     {% if isNew %}
                         <button type="submit" class="btn-success">Add movie</button>
                     {% else %}

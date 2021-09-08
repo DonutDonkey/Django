@@ -1,6 +1,21 @@
 from django.db import models
 
 # Create your models here.
+class AdditionalInfo(models.Model) :
+    duration_time = models.PositiveSmallIntegerField(default=0)
+
+    __GENRE = {
+        (0, 'Else'),
+        (1, 'Horror'),
+        (2, 'Comedy'),
+        (3, 'Sci-fi'),
+        (4, 'Drama')
+    }
+    genre = models.PositiveSmallIntegerField(default=0, choices=__GENRE)
+
+    # def __str__(self) -> str :
+    #     return 
+
 class Film(models.Model) :
     # Null : Bool : 
     # If the value can be null without assigning anything to
@@ -32,7 +47,9 @@ class Film(models.Model) :
 
     poster = models.ImageField(upload_to='posters', null=True, blank=True)
 
-    def __str__(self) -> str:
+    additional_info = models.OneToOneField(AdditionalInfo, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self) -> str :
         return self.title_with_year()
         #return self.title + '(' + str(self.year) + ')'
 
@@ -40,14 +57,17 @@ class Film(models.Model) :
         return "{} ({})".format(self.title, self.year)
         # return f'{self.title}({str(self.year)})'
 
-class AdditionalInfo(models.Model) :
-    duration_time = models.PositiveSmallIntegerField(default=0)
+class Rating(models.Model) :
+    review = models.TextField(default='', blank=True)
+    stars = models.SmallIntegerField(default=5)
 
-    GENRE = {
-        (0, 'Else'),
-        (1, 'Horror'),
-        (2, 'Comedy'),
-        (3, 'Sci-fi'),
-        (4, 'Drama'),
-    }
-    genre = models.PositiveSmallIntegerField(default=0)
+    movie = models.ForeignKey(Film, on_delete=models.CASCADE)
+
+class Actor(models.Model) :
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+
+    movies = models.ManyToManyField(Film)
+
+    def __str__(self) -> str:
+        return "{} {}".format(self.first_name, self.last_name)

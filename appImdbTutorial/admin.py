@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Film
+from .models import Actor, Film, AdditionalInfo, Rating
 
 # Register your models here.
 #admin.site.register(Film)
@@ -11,3 +11,7 @@ class FilmAdmin(admin.ModelAdmin) :
     list_display = ['title', 'imdb_rating', 'year']
     list_filter = ('year','release')
     search_fields = ('title', 'year')
+
+admin.site.register(AdditionalInfo)
+admin.site.register(Rating)
+admin.site.register(Actor)

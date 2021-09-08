@@ -1,5 +1,5 @@
 """
-WSGI config for UdemyCourse project.
+WSGI config for App project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

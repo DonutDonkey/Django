@@ -1,7 +1,6 @@
-from appImdbTutorial.forms import FilmForm
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Film
-from .forms import FilmForm
+from .models import AdditionalInfo, Film
+from .forms import FilmForm, AdditionalInfoForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -17,25 +16,43 @@ def all_movies(request) :
 @login_required
 def new_movie(request) :
     if_new = True
-    form = FilmForm(request.POST or None, request.FILES or None)
+    form_film = FilmForm(request.POST or None, request.FILES or None)
+    form_info = AdditionalInfoForm(request.POST or None)
 
-    if form.is_valid() :
-        form.save()
+    if all( (form_film.is_valid(), form_info.is_valid()) ) :
+        film = form_film.save(commit=False)
+        info = form_info.save()
+
+        film.additional_info = info
+        film.save()
+
         return redirect(all_movies)
 
-    return render(request, 'movie_form.html', {'form': form, 'isNew': if_new})
+    return render(request, 'movie_form.html', {'form': form_film, 'form_info': form_info, 'isNew': if_new})
 
 @login_required
 def edit_movie(request, id) :
     if_new = False
     movie = get_object_or_404(Film, pk=id) # no primary key in our model
-    form = FilmForm(request.POST or None, request.FILES or None, instance=movie)
 
-    if form.is_valid() :
-        form.save()
+    try :
+        info = AdditionalInfo.objects.get(film = movie.id) # If no value is added in the models.py the dault will be lower casae name of the model
+    except AdditionalInfo.DoesNotExist :
+        info = None
+
+    form_film = FilmForm(request.POST or None, request.FILES or None, instance=movie)
+    form_info = AdditionalInfoForm(request.POST or None, instance=info)
+
+    if all( (form_film.is_valid(), form_info.is_valid()) ) :
+        film = form_film.save(commit=False)
+        extra = form_info.save()
+
+        film.additional_info = extra
+        film.save()
+
         return redirect(all_movies)
 
-    return render(request, 'movie_form.html', {'form': form, 'isNew': if_new})
+    return render(request, 'movie_form.html', {'form': form_film, 'form_info': form_info, 'isNew': if_new})
 
 @login_required
 def delete_movie(request, id) :
