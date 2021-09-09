@@ -29,18 +29,20 @@
         </div>
     </div>
 
-    <div class="card" style="width: 40rem;">
-        <div class="card-body">
-            <h5 class="card-title">Rate Movie</h5>
+    {% if rating %}
+        <div class="card" style="width: 40rem;">
+            <div class="card-body">
+                <h5 class="card-title">Rate Movie</h5>
 
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <br>
-                {{ rating|bootstrap }}
-                    <button type="submit" class="btn-success">Rate</button>
-            </form>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <br>
+                    {{ rating|bootstrap }}
+                        <button type="submit" class="btn-success">Rate</button>
+                </form>
+            </div>
         </div>
-    </div>
+    {% endif rating %}
 
     {% for reviews_loop in reviews %}
         <h4>Stars : {{ reviews_loop.stars }}</h4>
