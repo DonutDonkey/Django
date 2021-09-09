@@ -77,8 +77,12 @@ def delete_movie(request, id) :
 
 from rest_framework import viewsets
 from django.contrib.auth.models import User
-from appImdbTutorial.serializers import UserSerializer
+from appImdbTutorial.serializers import FilmSerializer, UserSerializer
 
-class UserView(viewsets.ModelViewSet) :
+class UserViewSet(viewsets.ModelViewSet) :
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class FilmViewSet(viewsets.ModelViewSet) :
+    queryset = Film.objects.all()
+    serializer_class = FilmSerializer
