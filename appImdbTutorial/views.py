@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import AdditionalInfo, Film, Rating
 from .forms import FilmForm, AdditionalInfoForm, RatingForm
@@ -73,3 +74,11 @@ def delete_movie(request, id) :
         return redirect(all_movies)
 
     return render(request, 'confirm.html', {'film': movie})
+
+from rest_framework import viewsets
+from django.contrib.auth.models import User
+from appImdbTutorial.serializers import UserSerializer
+
+class UserView(viewsets.ModelViewSet) :
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
